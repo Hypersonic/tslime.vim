@@ -10,12 +10,13 @@ let g:tslime_loaded = 1
 
 " Main function.
 " Use it in your script if you want to send text to a tmux session.
-function! Send_to_Tmux(text)
-  if !exists("b:tmux_sessionname") || !exists("b:tmux_windowname") || !exists("b:tmux_panenumber")
-    if exists("g:tmux_sessionname") && exists("g:tmux_windowname") && exist("g:tmux_panenumber")
+function! Send_to_Tmux()
+  if !exists("b:tmux_sessionname") || !exists("b:tmux_windowname") || !exists("b:tmux_panenumber") || !exists("b:tmux_command")
+    if exists("g:tmux_sessionname") && exists("g:tmux_windowname") && exists("g:tmux_panenumber") && exists("g:tmux_command")
       let b:tmux_sessionname = g:tmux_sessionname
       let b:tmux_windowname = g:tmux_windowname
       let b:tmux_panenumber = g:tmux_panenumber
+      let b:tmux_command = g:tmux_command
     else
       call <SID>Tmux_Vars()
     end
@@ -23,7 +24,7 @@ function! Send_to_Tmux(text)
 
   let target = b:tmux_sessionname . ":" . b:tmux_windowname . "." . b:tmux_panenumber
 
-  call system("tmux set-buffer '" . substitute(a:text, "'", "'\\\\''", 'g') . "'" )
+  call system("tmux set-buffer '" . substitute(b:tmux_command, "'", "'\\\\''", 'g') . "'" )
   call system("tmux paste-buffer -t " . target)
 endfunction
 
@@ -47,11 +48,14 @@ function! s:Tmux_Vars()
   let b:tmux_sessionname = input("session name: ", "", "custom,Tmux_Session_Names")
   let b:tmux_windowname = substitute(input("window name: ", "", "custom,Tmux_Window_Names"), ":.*$" , '', 'g')
   let b:tmux_panenumber = input("pane number: ", "", "custom,Tmux_Pane_Numbers")
+  let b:tmux_command = input("Command to run: ")
 
-  if !exists("g:tmux_sessionname") || !exists("g:tmux_windowname") || !exists("g:tmux_panenumber")
+
+  if !exists("g:tmux_sessionname") || !exists("g:tmux_windowname") || !exists("g:tmux_panenumber") || !exists("g:tmux_command")
     let g:tmux_sessionname = b:tmux_sessionname
     let g:tmux_windowname = b:tmux_windowname
     let g:tmux_panenumber = b:tmux_panenumber
+    let g:tmux_command = b:tmux_command
   end
 endfunction
 
