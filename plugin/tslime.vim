@@ -61,7 +61,7 @@ endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-vmap <C-c><C-c> "ry :call Send_to_Tmux(@r)<CR>
-nmap <C-c><C-c> vip<C-c><C-c>
+"vmap <C-c><C-c> "ry :call Send_to_Tmux(@r)<CR>
+"nmap <C-c><C-c> vip<C-c><C-c>
 
 nmap <C-c>v :call <SID>Tmux_Vars()<CR>
