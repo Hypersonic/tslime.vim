@@ -48,7 +48,7 @@ function! s:Tmux_Vars()
   let b:tmux_sessionname = input("session name: ", "", "custom,Tmux_Session_Names")
   let b:tmux_windowname = substitute(input("window name: ", "", "custom,Tmux_Window_Names"), ":.*$" , '', 'g')
   let b:tmux_panenumber = input("pane number: ", "", "custom,Tmux_Pane_Numbers")
-  let b:tmux_command = input("Command to run: ")
+  let b:tmux_command = input("Command to run: ") . "\n"
 
 
   if !exists("g:tmux_sessionname") || !exists("g:tmux_windowname") || !exists("g:tmux_panenumber") || !exists("g:tmux_command")
